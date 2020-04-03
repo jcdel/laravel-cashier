@@ -34,16 +34,28 @@
                                         <td>{{ $sub->stripe_status }}</td>
                                         <td>{{ $sub->stripe_plan }}</td>
                                         <td>{{ $sub->trial_ends_at }}</td>
-                                        <td><form action="{{ route('subscriptions.cancel', $sub->stripe_id)}}" method="post">
-                                            @csrf
-                                            @method('POST')
+                                        <td>
+                                            <form action="{{ route('subscriptions.cancel', $sub->stripe_id)}}" method="post">
+                                                @csrf
+                                                @method('POST')
 
-                                           @if($user->subscription($sub->name)->cancelled()) 
-                                                <button class="btn btn-info" type="submit" disabled>Cancelled</button>
-                                            @else
-                                                <button class="btn btn-danger" type="submit">Cancel</button>
-                                            @endif
-                                          </form>
+                                                @if($user->subscription($sub->name)->cancelled()) 
+                                                    <button class="btn btn-info" type="submit" disabled>Cancelled</button>
+                                                @else
+                                                    <button class="btn btn-danger" type="submit">Cancel</button>
+                                                @endif
+                                            </form>
+                                        </td>
+
+                                        <td>
+                                            <form action="{{ route('subscriptions.resume', $sub->stripe_id)}}" method="post">
+                                                @csrf
+                                                @method('POST')
+
+                                                @if($user->subscription($sub->name)->cancelled()) 
+                                                    <button class="btn btn-success" type="submit">Resume</button>
+                                                @endif
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach

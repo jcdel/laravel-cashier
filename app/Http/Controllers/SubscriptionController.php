@@ -99,6 +99,11 @@ class SubscriptionController extends Controller
         //
     }
 
+    /**
+     * Cancel Subscription from Stripe
+     *
+     * @param  int  $id
+     */
     public function cancelSubscription($id) 
     {
         $subscription = Subscription::where('stripe_id', $id)->first();
@@ -106,5 +111,19 @@ class SubscriptionController extends Controller
         $user->subscription($subscription->name)->cancel();
         
         return redirect()->back()->with('success', 'Your plan cancelled successfully');
+    }
+
+    /**
+     * Resume Subscription from Stripe
+     *
+     * @param  int  $id
+     */
+    public function resumeSubscription($id) 
+    {
+        $subscription = Subscription::where('stripe_id', $id)->first();
+        $user = User::find(auth()->user()->id);
+        $user->subscription($subscription->name)->resume();
+        
+        return redirect()->back()->with('success', 'Your plan resumed successfully');
     }
 }
