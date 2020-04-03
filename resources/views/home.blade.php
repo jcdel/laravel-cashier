@@ -3,35 +3,41 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             @if(session()->get('success'))
                 <div class="alert alert-success">
                     {{ session()->get('success') }}
                 </div>
             @endif
-
-            <div class="row justify-content-center">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header"><h2>Home</h2></div>
-                        <div class="card-body">
-                            @if (session('status'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ session('status') }}
-                                </div>
-                            @endif
-                            <ul class="list-group">
-                                <li class="list-group-item clearfix">
-                                    User: {{ $user }}
-                                </li>
-                                <li class="list-group-item clearfix">
-                                    Plan: {{ $plan }}
-                                </li>
-                                <li class="list-group-item clearfix">
-                                    Subscription: {{ $subscription }}
-                                </li>
-                            </ul>
-                        </div>
+            <div class="card">
+                <div class="card-header"><h2>Welcome {{ $userName }}!</h2></div>
+                <div class="card-body">
+                    <div class="pull-left">
+                        <h5>Subscriptions:</h5>
+                        <table class="table table-dark">
+                            <thead>
+                                <tr>
+                                <th scope="col">User Id</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Stripe Id</th>
+                                <th scope="col">Stripe Status</th>
+                                <th scope="col">Stripe Plan</th>
+                                <th scope="col">Trial Ends</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($subscriptions as $sub)
+                                    <tr>
+                                        <td>{{ $sub->user_id }}</td>
+                                        <td>{{ $sub->name }}</td>
+                                        <td>{{ $sub->stripe_id }}</td>
+                                        <td>{{ $sub->stripe_status }}</td>
+                                        <td>{{ $sub->stripe_plan }}</td>
+                                        <td>{{ $sub->trial_ends_at }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

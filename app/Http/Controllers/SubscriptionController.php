@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Plan;
 use App\Subscription;
 
 class SubscriptionController extends Controller
@@ -14,7 +15,7 @@ class SubscriptionController extends Controller
      */
     public function index()
     {
-        $subscriptions = Subscription::all();
+        $subscriptions = Subscription::where('user_id', auth()->user()->id)->get();
 
         return view('subscriptions.index', compact('subscriptions'));
     }
@@ -33,7 +34,7 @@ class SubscriptionController extends Controller
         $plan = Plan::findOrFail($request->get('plan'));
         
         $request->user()
-            ->newSubscription($plan->name, $plan->stripe_plan)
+            ->newSubscription($plan->name, $plan->stripe_id)
             ->trialDays(30)
             ->create($request->stripeToken);
         
@@ -95,4 +96,5 @@ class SubscriptionController extends Controller
     {
         //
     }
+
 }

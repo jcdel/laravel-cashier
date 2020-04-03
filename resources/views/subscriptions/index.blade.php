@@ -11,7 +11,7 @@
                         <table class="table table-dark">
                             <thead>
                                 <tr>
-                                <th scope="col">Id</th>
+                                <th scope="col">User Id</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Stripe Id</th>
                                 <th scope="col">Stripe Status</th>
@@ -22,7 +22,7 @@
                             <tbody>
                                 @foreach($subscriptions as $sub)
                                     <tr>
-                                        <th scope="row">1</th>
+                                        <td>{{ $sub->user_id }}</td>
                                         <td>{{ $sub->name }}</td>
                                         <td>{{ $sub->stripe_id }}</td>
                                         <td>{{ $sub->stripe_status }}</td>
