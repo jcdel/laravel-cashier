@@ -105,6 +105,6 @@ class SubscriptionController extends Controller
         $user = User::find(auth()->user()->id);
         $user->subscription($subscription->name)->cancel();
         
-        return redirect()->route('/subscriptions')->with('success', 'Your plan cancelled successfully');
+        return redirect()->back()->with('success', 'Your plan cancelled successfully');
     }
 }

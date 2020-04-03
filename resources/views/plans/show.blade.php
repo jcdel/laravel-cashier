@@ -8,7 +8,7 @@
                 <p>You will be charged ${{ number_format($plan->cost, 2) }} for {{ $plan->name }} Plan</p>
             </div>
             <div class="card">
-            <form action="{{ route('subscription.create') }}" method="post" id="payment-form">
+            <form action="{{ route('subscriptions.create') }}" method="post" id="payment-form">
                     @csrf                    
                     <div class="form-group">
                         <div class="card-header">
