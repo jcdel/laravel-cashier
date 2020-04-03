@@ -53,7 +53,7 @@
                                 <a class="nav-link" href="{{ route('plans.index') }}">{{ __('Plans') }}</a>
                             </li>
                             <li class="nav-item">      
-                                <a class="nav-link" href="{{ route('subscription.index') }}">{{ __('Subscriptions') }}</a>
+                                <a class="nav-link" href="{{ route('subscriptions.index') }}">{{ __('Subscriptions') }}</a>
                             </li>
 
                             <li class="nav-item dropdown">

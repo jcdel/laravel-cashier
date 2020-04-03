@@ -10,7 +10,7 @@
                 </div>
             @endif
             <div class="card">
-                <div class="card-header"><h2>Welcome {{ $userName }}!</h2></div>
+                <div class="card-header"><h2>Welcome {{ $user->name }}!</h2></div>
                 <div class="card-body">
                     <div class="pull-left">
                         <h5>Subscriptions:</h5>
@@ -23,6 +23,7 @@
                                 <th scope="col">Stripe Status</th>
                                 <th scope="col">Stripe Plan</th>
                                 <th scope="col">Trial Ends</th>
+                                <th scope="col">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -34,6 +35,7 @@
                                         <td>{{ $sub->stripe_status }}</td>
                                         <td>{{ $sub->stripe_plan }}</td>
                                         <td>{{ $sub->trial_ends_at }}</td>
+                                        <td>{{ ($user->subscription($sub->name)->cancelled() ? 'Cancelled' : 'Active') }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

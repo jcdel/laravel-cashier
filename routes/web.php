@@ -23,6 +23,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/plans', 'PlanController@index')->name('plans.index');
     Route::get('/plan/{plan}', 'PlanController@show')->name('plans.show');
-    Route::get('/subscriptions', 'SubscriptionController@index')->name('subscription.index');
-    Route::post('/subscription', 'SubscriptionController@create')->name('subscription.create');
+    Route::get('/subscriptions', 'SubscriptionController@index')->name('subscriptions.index');
+    Route::post('/subscription', 'SubscriptionController@create')->name('subscriptions.create');
+    Route::post('/subscription/cancel/{id}', 'SubscriptionController@cancelSubscription')->name('subscriptions.cancel');
 });

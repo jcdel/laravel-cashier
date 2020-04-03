@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Plan;
 use App\Subscription;
+use App\User;
 
 class SubscriptionController extends Controller
 {
@@ -16,8 +17,9 @@ class SubscriptionController extends Controller
     public function index()
     {
         $subscriptions = Subscription::where('user_id', auth()->user()->id)->get();
+        $user = User::find(auth()->user()->id);
 
-        return view('subscriptions.index', compact('subscriptions'));
+        return view('subscriptions.index', compact('subscriptions', 'user'));
     }
 
     /**
@@ -97,4 +99,12 @@ class SubscriptionController extends Controller
         //
     }
 
+    public function cancelSubscription($id) 
+    {
+        $subscription = Subscription::where('stripe_id', $id)->first();
+        $user = User::find(auth()->user()->id);
+        $user->subscription($subscription->name)->cancel();
+        
+        return redirect()->route('/subscriptions')->with('success', 'Your plan cancelled successfully');
+    }
 }

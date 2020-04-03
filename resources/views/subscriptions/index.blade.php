@@ -4,6 +4,11 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
+            @if(session()->get('success'))
+                <div class="alert alert-success">
+                    {{ session()->get('success') }}
+                </div>
+            @endif
             <div class="card">
                 <div class="card-header"><h2>Subscriptions</h2></div>
                 <div class="card-body">
@@ -17,6 +22,7 @@
                                 <th scope="col">Stripe Status</th>
                                 <th scope="col">Stripe Plan</th>
                                 <th scope="col">Trial Ends</th>
+                                <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -28,6 +34,17 @@
                                         <td>{{ $sub->stripe_status }}</td>
                                         <td>{{ $sub->stripe_plan }}</td>
                                         <td>{{ $sub->trial_ends_at }}</td>
+                                        <td><form action="{{ route('subscriptions.cancel', $sub->stripe_id)}}" method="post">
+                                            @csrf
+                                            @method('POST')
+
+                                           @if($user->subscription($sub->name)->cancelled()) 
+                                                <button class="btn btn-info" type="submit" disabled>Cancelled</button>
+                                            @else
+                                                <button class="btn btn-danger" type="submit">Cancel</button>
+                                            @endif
+                                          </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
