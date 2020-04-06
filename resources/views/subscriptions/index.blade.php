@@ -10,7 +10,7 @@
                 </div>
             @endif
             <div class="card">
-                <div class="card-header"><h2>Subscriptions</h2></div>
+                <div class="card-header"><h2>All Subscriptions</h2></div>
                 <div class="card-body">
                     <div class="pull-left">
                         <table class="table table-dark">
@@ -34,6 +34,23 @@
                                         <td>{{ $sub->stripe_status }}</td>
                                         <td>{{ $sub->stripe_plan }}</td>
                                         <td>{{ $sub->trial_ends_at }}</td>
+
+                                        @php
+                                            $stripePlan = $sub->stripe_plan === env('STRIPE_PRO_PLAN') ? env('STRIPE_BASIC_PLAN') : env('STRIPE_PRO_PLAN');
+                                            $buttonAction = $sub->stripe_plan === env('STRIPE_PRO_PLAN') ? "Downgrade" : "Upgrade";
+                                            $buttonType = $sub->stripe_plan === env('STRIPE_PRO_PLAN') ? "danger" : "success";
+                                        @endphp
+
+                                        <td>
+                                            <form action="{{ route('subscriptions.swap',['stripeId' => $sub->stripe_id, 'planId' => $stripePlan]) }}" method="post">
+                                                @csrf
+                                                @method('POST')
+
+                                                @if(!$user->subscription($sub->name)->cancelled())
+                                                    <button class="btn btn-{{ $buttonType }}" type="submit">{{ $buttonAction }}</button>
+                                                @endif
+                                            </form>
+                                        </td>
                                         <td>
                                             <form action="{{ route('subscriptions.cancel', $sub->stripe_id)}}" method="post">
                                                 @csrf
@@ -46,13 +63,12 @@
                                                 @endif
                                             </form>
                                         </td>
-
                                         <td>
                                             <form action="{{ route('subscriptions.resume', $sub->stripe_id)}}" method="post">
                                                 @csrf
                                                 @method('POST')
 
-                                                @if($user->subscription($sub->name)->cancelled()) 
+                                                @if($user->subscription($sub->name)->cancelled() && $sub->stripe_status != 'canceled')
                                                     <button class="btn btn-success" type="submit">Resume</button>
                                                 @endif
                                             </form>

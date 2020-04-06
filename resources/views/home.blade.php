@@ -13,7 +13,7 @@
                 <div class="card-header"><h2>Welcome {{ $user->name }}!</h2></div>
                 <div class="card-body">
                     <div class="pull-left">
-                        <h5>Subscriptions:</h5>
+                        <h5>Active Subscriptions:</h5>
                         <table class="table table-dark">
                             <thead>
                                 <tr>

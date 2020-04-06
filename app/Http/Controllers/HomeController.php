@@ -28,7 +28,9 @@ class HomeController extends Controller
     public function index()
     {
         $user = User::find(auth()->user()->id);
-        $subscriptions =  Subscription::where('user_id', auth()->user()->id)->get();
+        $subscriptions =  Subscription::where('user_id', auth()->user()->id)
+            ->where('stripe_status', '!=', 'canceled')
+            ->get();
 
         return view('home', compact('user', 'subscriptions'));
     }

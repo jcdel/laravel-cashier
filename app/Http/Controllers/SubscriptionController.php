@@ -126,4 +126,20 @@ class SubscriptionController extends Controller
         
         return redirect()->back()->with('success', 'Your plan resumed successfully');
     }
+
+    /**
+     * Swap Subscription from Stripe
+     *
+     * @param  int  $id
+     */
+    public function swapSubscription($stripeId, $planId)
+    {
+        $subscription = Subscription::where('stripe_id', $stripeId)->first();
+        $user = User::find(auth()->user()->id);
+
+        $user->subscription($subscription->name)
+            ->swap($planId);
+
+        return redirect()->back()->with('success', 'Your plan updated successfully');
+    }
 }
